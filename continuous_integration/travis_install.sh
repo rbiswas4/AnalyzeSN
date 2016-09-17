@@ -16,15 +16,20 @@ store_info()
 EOT
 	cat "$1"
 }
-store_info "${store_dir}/info.txt"
-if [[ -f "$CACHE_TARBALL_PATH" ]] && cmp "${store_dir}/info.txt" "$CACHE_DIR/info.txt"; then
-	#
-	# Restore from cached tarball
-	#
-        tar xzf "$CACHE_TARBALL_PATH" -C "${store_dir}" 
-	ls -l "${store_dir}"
-else
-    ./continuous_integration/install_miniconda.sh
-    ./continuous_integration/conda_install_dep.sh
-    ./continuous_integration/cleanup.sh
-fi
+# store_info "${store_dir}/info.txt"
+./continuous_integration/install_miniconda.sh
+./continuous_integration/conda_install_dep.sh
+./continuous_integration/cleanup.sh
+
+
+## if [[ -f "$CACHE_TARBALL_PATH" ]] && cmp "${store_dir}/info.txt" "$CACHE_DIR/info.txt"; then
+## 	#
+## 	# Restore from cached tarball
+## 	#
+##         tar xzf "$CACHE_TARBALL_PATH" -C "${store_dir}" 
+## 	ls -l "${store_dir}"
+## else
+##     ./continuous_integration/install_miniconda.sh
+##     ./continuous_integration/conda_install_dep.sh
+##     ./continuous_integration/cleanup.sh
+## fi
