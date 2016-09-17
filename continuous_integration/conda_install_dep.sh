@@ -6,7 +6,8 @@ export PATH="${store_dir}/miniconda/bin:$PATH"
 # CHANNEL=${CHANNEL:-"pandas"}
 #conda config --add channels "$CHANNEL"
 #CHANNEL=${CHANNEL:-"astropy"}
-conda config --add channels pandas astropy
+conda config --add channels pandas 
+conda config --add channels astropy
 # conda create --yes -n AnalyzeSN python
 # source activate AnalyzeSN
 conda install -q --yes --file ./continuous_integration/requirements.txt
