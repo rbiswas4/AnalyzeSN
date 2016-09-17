@@ -9,6 +9,8 @@ install:
 
 script:
   # Your test script goes here
+  - source ./continuous_integration/setup_env.sh
+  - export PATH="${store_dir}/miniconda/bin:$PATH"
   # - source activate AnalyzeSN
   - conda list 
   - nosetests -v tests/
