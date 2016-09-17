@@ -1,0 +1,7 @@
+[run]
+branch = True
+source = analyzeSN/*
+include = analyzeSN/*
+omit = */setup.py
+[report]
+include = analyzeSN/*
