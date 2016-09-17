@@ -5,6 +5,8 @@ install:
   - travis_wait 5 ./continuous_integration/travis_install.sh
   - source ./continuous_integration/setup_env.sh
   #- source activate AnalyzeSN
+  - echo `which pip`
+  - echo `which python`
   - pip install -r ./continuous_integration/pip_requirements.txt
   - python setup.py install
 
