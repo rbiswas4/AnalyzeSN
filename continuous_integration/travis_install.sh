@@ -27,4 +27,4 @@ else
     ./continuous_integration/install_miniconda.sh
     ./continuous_integration/conda_install_deps.sh
     ./continuous_integration/cleanup.sh
-
+fi
