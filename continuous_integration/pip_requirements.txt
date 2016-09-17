@@ -1,2 +1,5 @@
 fitsio
 pandas
+coveralls
+coverage
+python-coveralls
