@@ -3,6 +3,7 @@ python:
   - "2.7"
 install:
   - travis_wait 5 ./continuous_integration/travis_install.sh
+  - source ./continuous_integration/setup_env.sh
   #- source activate AnalyzeSN
   - pip install -r ./continuous_integration/pip_requirements.txt
   - python setup.py install
@@ -10,7 +11,7 @@ install:
 script:
   # Your test script goes here
   - source ./continuous_integration/setup_env.sh
-  - export PATH="${store_dir}/miniconda/bin:$PATH"
+  # - export PATH="${store_dir}/miniconda/bin:$PATH"
   # - source activate AnalyzeSN
   - conda list 
   - nosetests -v tests/
