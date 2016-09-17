@@ -1,0 +1,5 @@
+sncosmo
+pandas
+matplotlib
+seaborn
+nose
