@@ -19,6 +19,7 @@ EOT
 # store_info "${store_dir}/info.txt"
 ./continuous_integration/install_miniconda.sh
 ./continuous_integration/conda_install_dep.sh
+conda list
 ./continuous_integration/cleanup.sh
 
 
