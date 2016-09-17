@@ -25,6 +25,6 @@ if [[ -f "$CACHE_TARBALL_PATH" ]] && cmp "${store_dir}/info.txt" "$CACHE_DIR/inf
 	ls -l "${store_dir}"
 else
     ./continuous_integration/install_miniconda.sh
-    ./continuous_integration/conda_install_deps.sh
+    ./continuous_integration/conda_install_dep.sh
     ./continuous_integration/cleanup.sh
 fi
