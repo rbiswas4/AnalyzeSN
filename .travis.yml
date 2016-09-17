@@ -16,6 +16,6 @@ script:
   # - export PATH="${store_dir}/miniconda/bin:$PATH"
   # - source activate AnalyzeSN
   - conda list 
-  - nosetests -v --with-coverage --cover-erase --cover-tests --cover-package=analyzeSN --cover-inclusive --cover-html --cover-html-dir=doc/coverage
+  - nosetests -v tests --with-coverage --cover-erase --cover-tests --cover-package=analyzeSN --cover-inclusive --cover-html --cover-html-dir=doc/coverage
 after_success:
     - coveralls
