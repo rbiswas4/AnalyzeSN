@@ -110,7 +110,6 @@ class LightCurve(BaseLightCurve):
                              missingColumns)
         else:
             return _lc
-
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
         lc = self.coaddedLC(coaddTimes=coaddTimes, mjdBefore=mjdBefore,
                             minmjd=minmjd).rename(columns=dict(mjd='time'))
