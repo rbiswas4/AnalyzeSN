@@ -3,6 +3,7 @@ import fitsio
 import pandas as pd
 import numpy as np
 import os
+from .lightcurve import LightCurve
 from astropy.table import Table, Column
 
 
@@ -151,4 +152,4 @@ class SNANASims(object):
             raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
         lcData = self.phot[1][ptrs[0]: ptrs[1]].byteswap().newbyteorder()
         
-        return pd.DataFrame(lcData)
+        return LightCurve(pd.DataFrame(lcData))
