@@ -30,6 +30,9 @@ class SNANASims(object):
         self.headData = self.get_headData(self.headFile,
 					  coerce_inds2int=coerce_inds2int)
         self.phot = fitsio.FITS(photFile)
+        self.bandNames = 'ugrizY'
+        self.newbandNames = tuple('lsst_' + band for band in self.bandNames.lower())
+        self.bandNameDict = dict(zip(self.bandNames, self.newbandNames)) 
 
     @classmethod
     def fromSNANAfileroot(cls, snanafileroot, location='./',
@@ -158,4 +161,4 @@ class SNANASims(object):
         lcdf['zpsys'] = 'ab'
         lcdf['zp'] = 27.5
         
-        return LightCurve(lcdf)
+        return LightCurve(lcdf, bandNameDict=self.bandNameDict, ignore_case=True)
