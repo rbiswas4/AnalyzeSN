@@ -94,6 +94,7 @@ class SNANASims(object):
             suffix = '_PHOT.FITS'
         fname = snanafileroot + suffix
         return os.path.join(location, fname)
+
     @staticmethod 
     def get_headData(headFile, coerce_inds2int=False):
 	"""
@@ -157,4 +158,4 @@ class SNANASims(object):
         lcdf['zpsys'] = 'ab'
         lcdf['zp'] = 27.5
         
-        return LightCurve()
+        return LightCurve(lcdf)
