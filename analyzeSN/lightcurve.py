@@ -141,7 +141,6 @@ class LightCurve(BaseLightCurve):
                                                         self.ignore_case))
             return _lc
 
-
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
         lc = self.coaddedLC(coaddTimes=coaddTimes, mjdBefore=mjdBefore,
                             minmjd=minmjd).rename(columns=dict(mjd='time'))
