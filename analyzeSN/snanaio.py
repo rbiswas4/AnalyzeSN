@@ -7,6 +7,8 @@ from .lightcurve import LightCurve
 from astropy.table import Table, Column
 
 
+__all__ = ['SNANASims']
+
 class SNANASims(object):
     """
     Class to represent SNANA simulations of a particular class of objects, ie.
