@@ -9,7 +9,8 @@ except:
     print('or by cloning the throughputs directory from git-lfs, \n')
     print('and setting up env vars. The function is to provide the LSST bandpass\n') 
     print('files\n')
-#from . import snanaSims
+from .aliases import *
+from .lightcurve import *
 from .snanaio import SNANASims
 from .analyzelcFits import *
 from .cov_utils import *

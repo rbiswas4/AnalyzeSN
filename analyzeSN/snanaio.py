@@ -3,8 +3,11 @@ import fitsio
 import pandas as pd
 import numpy as np
 import os
+from .lightcurve import LightCurve
 from astropy.table import Table, Column
 
+
+__all__ = ['SNANASims']
 
 class SNANASims(object):
     """
@@ -91,6 +94,7 @@ class SNANASims(object):
             suffix = '_PHOT.FITS'
         fname = snanafileroot + suffix
         return os.path.join(location, fname)
+
     @staticmethod 
     def get_headData(headFile, coerce_inds2int=False):
 	"""
@@ -150,5 +154,8 @@ class SNANASims(object):
         else:
             raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
         lcData = self.phot[1][ptrs[0]: ptrs[1]].byteswap().newbyteorder()
+        lcdf = pd.DataFrame(lcData)
+        lcdf['zpsys'] = 'ab'
+        lcdf['zp'] = 27.5
         
-        return pd.DataFrame(lcData)
+        return LightCurve(lcdf)
