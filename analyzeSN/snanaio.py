@@ -149,6 +149,11 @@ class SNANASims(object):
 	return the photometry table corresponding to a SN with snid (from the
        	head table) or the photometry table within the range of row numbers
 	indicated by ptrs
+
+        Parameters
+        ----------
+        snid : 
+        ptrs :
 	"""
         if ptrs is not None:
             assert np.shape(ptrs) == (2,)

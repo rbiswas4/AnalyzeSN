@@ -102,7 +102,6 @@ class LightCurve(BaseLightCurve):
     def remap_filters(name, nameDicts, ignore_case=True):
         """
         """
-        print(nameDicts)
         try:
             if ignore_case:
                 return nameDicts[name.lower()]
@@ -135,11 +134,12 @@ class LightCurve(BaseLightCurve):
             raise ValueError('light curve data has missing columns',
                              missingColumns)
         else:
+            _lc.band = _lc.band.apply(lambda x: x.strip())
             if self.bandNameDict is not None:
                 _lc.band = _lc.band.apply(lambda x:
                                           self.remap_filters(x, self.bandNameDict,
                                                         self.ignore_case))
-            return LightCurve(_lc)
+            return _lc
 
 
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
