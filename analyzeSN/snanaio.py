@@ -31,7 +31,8 @@ class SNANASims(object):
 					  coerce_inds2int=coerce_inds2int)
         self.phot = fitsio.FITS(photFile)
         self.bandNames = 'ugrizY'
-        self.newbandNames = tuple('lsst_' + band for band in self.bandNames.lower())
+        self.newbandNames = tuple('lsst_' + band
+                                  for band in self.bandNames.lower())
         self.bandNameDict = dict(zip(self.bandNames, self.newbandNames)) 
 
     @classmethod
@@ -139,7 +140,8 @@ class SNANASims(object):
         elif snid is not None:
             ptrs = self.headData.ix[snid][['PTROBS_MIN', 'PTROBS_MAX']]
         else:
-            raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
+            raise ValueError('Both {0} and {1} cannot be None'
+                             'simulataneously'.format('snid', 'row'))
         ptrs = ptrs.astype('int').values
         ptrs[0] -= 1
         return ptrs
@@ -160,7 +162,8 @@ class SNANASims(object):
         elif snid is not None:
             ptrs = self.get_photrows(snid=snid.strip().lower())
         else:
-            raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
+            raise ValueError('Both {0} and {1} cannot be None'
+                             'simulataneously'.format('snid', 'row'))
         lcData = self.phot[1][ptrs[0]: ptrs[1]].byteswap().newbyteorder()
         lcdf = pd.DataFrame(lcData)
         lcdf['zpsys'] = 'ab'
