@@ -30,6 +30,10 @@ class SNANASims(object):
         self.headData = self.get_headData(self.headFile,
 					  coerce_inds2int=coerce_inds2int)
         self.phot = fitsio.FITS(photFile)
+        self.bandNames = 'ugrizY'
+        self.newbandNames = tuple('lsst_' + band
+                                  for band in self.bandNames.lower())
+        self.bandNameDict = dict(zip(self.bandNames, self.newbandNames)) 
 
     @classmethod
     def fromSNANAfileroot(cls, snanafileroot, location='./',
@@ -136,7 +140,8 @@ class SNANASims(object):
         elif snid is not None:
             ptrs = self.headData.ix[snid][['PTROBS_MIN', 'PTROBS_MAX']]
         else:
-            raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
+            raise ValueError('Both {0} and {1} cannot be None'
+                             'simulataneously'.format('snid', 'row'))
         ptrs = ptrs.astype('int').values
         ptrs[0] -= 1
         return ptrs
@@ -146,16 +151,22 @@ class SNANASims(object):
 	return the photometry table corresponding to a SN with snid (from the
        	head table) or the photometry table within the range of row numbers
 	indicated by ptrs
+
+        Parameters
+        ----------
+        snid : 
+        ptrs :
 	"""
         if ptrs is not None:
             assert np.shape(ptrs) == (2,)
         elif snid is not None:
             ptrs = self.get_photrows(snid=snid.strip().lower())
         else:
-            raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
+            raise ValueError('Both {0} and {1} cannot be None'
+                             'simulataneously'.format('snid', 'row'))
         lcData = self.phot[1][ptrs[0]: ptrs[1]].byteswap().newbyteorder()
         lcdf = pd.DataFrame(lcData)
         lcdf['zpsys'] = 'ab'
         lcdf['zp'] = 27.5
         
-        return LightCurve(lcdf)
+        return LightCurve(lcdf, bandNameDict=self.bandNameDict, ignore_case=True)

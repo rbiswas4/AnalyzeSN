@@ -39,6 +39,12 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
     def coaddedLC(self, coaddTimes=None, format=None, *args, **kwargs):
         pass
 
+    @abc.abstractmethod
+    def remap_filters(names, bandNameDict, ignore_case):
+        pass
+    @abc.abstractmethod
+
+
     def missingColumns(self, lcdf):
 
         notFound = self.mandatoryColumns - set(lcdf.columns)
@@ -72,7 +78,7 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
 
 class LightCurve(BaseLightCurve):
 
-    def __init__(self, lcdf):
+    def __init__(self, lcdf, bandNameDict=None, ignore_case=True):
         """
         Instantiate Light Curve class
 
@@ -80,14 +86,32 @@ class LightCurve(BaseLightCurve):
         ----------
         lcdf : `pd.DataFrame`, mandatory
             light curve information
+        bandNameDict : dictionary
         """
+        self.bandNameDict = bandNameDict
         self._lightCurve  = lcdf
+        self.ignore_case = ignore_case
 
 
     def missingColumns(self, lcdf):
 
         notFound = self.mandatoryColumns - set(lcdf.columns)
         return notFound
+
+    @staticmethod
+    def remap_filters(name, nameDicts, ignore_case=True):
+        """
+        """
+        try:
+            if ignore_case:
+                return nameDicts[name.lower()]
+            else:
+                return nameDicts[name]
+        except:
+            raise NotImplementedError('values for old filter {} not implemented',
+                                       name)
+
+
 
     @property
     def lightCurve(self):
@@ -110,7 +134,13 @@ class LightCurve(BaseLightCurve):
             raise ValueError('light curve data has missing columns',
                              missingColumns)
         else:
+            _lc.band = _lc.band.apply(lambda x: x.strip())
+            if self.bandNameDict is not None:
+                _lc.band = _lc.band.apply(lambda x:
+                                          self.remap_filters(x, self.bandNameDict,
+                                                        self.ignore_case))
             return _lc
+
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
         lc = self.coaddedLC(coaddTimes=coaddTimes, mjdBefore=mjdBefore,
                             minmjd=minmjd).rename(columns=dict(mjd='time'))
