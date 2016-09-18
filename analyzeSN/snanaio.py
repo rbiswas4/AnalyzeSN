@@ -153,5 +153,8 @@ class SNANASims(object):
         else:
             raise ValueError('Both {0} and {1} cannot be None simulataneously'.format('snid', 'row'))
         lcData = self.phot[1][ptrs[0]: ptrs[1]].byteswap().newbyteorder()
+        lcdf = pd.DataFrame(lcData)
+        lcdf['zpsys'] = 'ab'
+        lcdf['zp'] = 27.5
         
-        return LightCurve(pd.DataFrame(lcData))
+        return LightCurve()
