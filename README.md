@@ -4,6 +4,11 @@
 
 A repository with codes for supernova data analysis
 
-# Requirements
-You can find the [requirements here](./continuous_integration/requirements.txt)
+## Requirements
+You can find the [requirements here](./Requirements.md)
 
+
+## Contributors
+
+- R. Biswas
+- L. McBride
