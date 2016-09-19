@@ -6,3 +6,7 @@ coveralls
 coverage
 python-coveralls
 future
+emcee
+iminuit
+nestle
+triangle
