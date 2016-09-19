@@ -9,12 +9,13 @@ while read -r line
 do
      echo "- $line" >> $reqfile
  done < ../continuous_integration/requirements.txt 
-
+echo -en '\n' >> $reqfile
 echo "## installed by pip" >> $reqfile
 while read -r line
 do
      echo "- $line" >> $reqfile
  done < ../continuous_integration/pip_requirements.txt 
+echo -en '\n' >> $reqfile
 
 echo "## Other requirements" >> $reqfile
  
