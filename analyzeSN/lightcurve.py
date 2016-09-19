@@ -142,7 +142,7 @@ class LightCurve(BaseLightCurve):
         The lightcurve in native format
         """
         # light curve
-        _lc = self._lightCurve
+        _lc = self._lightCurve.copy()
 
         # Rename columns to standard names if necessary
         aliases = self.columnAliases
