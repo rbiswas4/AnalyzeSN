@@ -77,6 +77,17 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
         return aliases
 
 class LightCurve(BaseLightCurve):
+    """
+    A Class to represent light curve data.  Light curve data is often available
+    with different kinds of column names. This class homogenizes them to a set
+    of standard names, and allows simple calculations to be based on the same
+    variable names 'mjd', 'band', 'flux', 'fluxerr', 'zp', 'zpsys' which denote
+    the time of observation, bandpass of observation, the flux and flux
+    uncertainty of the observation.
+
+    zp represents the zero point to convert the flux value to the phsyical flux
+    using the zero point system zpsys.
+    """
 
     def __init__(self, lcdf, bandNameDict=None, ignore_case=True):
         """
@@ -85,12 +96,24 @@ class LightCurve(BaseLightCurve):
         Parameters
         ----------
         lcdf : `pd.DataFrame`, mandatory
-            light curve information
-        bandNameDict : dictionary
+            light curve information, must contain columns `mjd`, `band`, `flux`,
+            `flux_err`, `zp`, `zpsys`
+        bandNameDict : dictionary, optional, default to None
+            dictionary of the values in the 'band' column or its alias, and
+            values that it should be mapped to.
+        ignore_case : bool, optional, defaults to True
+            ignore the case of the characters in the strings representing
+            bandpasses
+        Example
+        -------
+        >>> from analyzeSN import LightCurve
+        >>> ex_data = sncosmo.load_example_data()
+        >>> lc = LightCurve(ex_data.to_pandas()) 
         """
         self.bandNameDict = bandNameDict
         self._lightCurve  = lcdf
         self.ignore_case = ignore_case
+        _ = self.lightCurve
 
 
     def missingColumns(self, lcdf):
@@ -119,7 +142,7 @@ class LightCurve(BaseLightCurve):
         The lightcurve in native format
         """
         # light curve
-        _lc = self._lightCurve
+        _lc = self._lightCurve.copy()
 
         # Rename columns to standard names if necessary
         aliases = self.columnAliases
