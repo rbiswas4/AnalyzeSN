@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+"""
+Module executed an install and setup to register both LSST and MEGACAM filters
+as SNCosmo bands.
+
+This allows SNCosmo to automatically use the 
+    LSST bandpass objects through the string 'lsst_b' where b is one of 'ugrizy'
+    Megacam bandpass objects through the string 'mega_b' where b is one of 'ugrizy'
+
+Note : The megacam bands added are the 'average' megacam bands using in ugriz.
+1. Post 2007 (June), the i band has been changed to i2. This is important for
+    SNLS5, but SNLS3 was taken prior to that. 
+2. For the precise analysis of MEGACAM SN, one needs to take into account the
+    dependence of the radial position of the SN. This is not done here.
+"""
 from __future__ import absolute_import
 
 import os
@@ -27,7 +41,7 @@ for band in lsstbandPassList:
     sncosmoband = sncosmo.Bandpass(wave=numpyband[:, 0],
                                    trans=numpyband[:, 1],
                                    wave_unit=Unit('nm'),
-                                   name='LSST_' + band)
+                                   name='lsst_' + band)
 
     sncosmo.registry.register(sncosmoband, force=True)
 
@@ -37,5 +51,5 @@ for band in megacamPassList:
     sncosmoband = sncosmo.Bandpass(wave=numpyband[:, 0],
                                    trans=numpyband[:, 1],
                                    wave_unit=Unit('nm'),
-                                   name='megacam_' + band)
+                                   name='mega_' + band)
     sncosmo.registry.register(sncosmoband, force=True)
