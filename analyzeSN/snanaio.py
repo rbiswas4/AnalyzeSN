@@ -9,12 +9,17 @@ from astropy.table import Table, Column
 
 __all__ = ['SNANASims']
 
+lsst_bandNames = 'ugrizy'
+lsst_bandpassNames = tuple('lsst_' + band
+                           for band in lsst_bandNames.lower())
 class SNANASims(object):
     """
     Class to represent SNANA simulations of a particular class of objects, ie.
     Ia or Non_Ia
     """
-    def __init__(self, headFile, photFile, coerce_inds2int=True):
+    def __init__(self, headFile, photFile, coerce_inds2int=True,
+                 SNANABandNames=lsst_bandNames,
+                 registeredBandNames=lsst_bandpassNames):
 	"""
 	Parameters
 	---------
@@ -24,20 +29,25 @@ class SNANASims(object):
 	    absolute path to phot file of simulation
 	coerce_inds2int : Bool, optional, defaults to True
 	    if true, converts SNID from string to int
+        SNANABandNames : iterable of strings/characters, optional, defaults to LSST
+            characters used to denote the bandpass in the SNANA simulations
+        registeredBandNames : iterable of strings, optional, defaults to LSST
+            names of the bands registered in SNCosmo
 	"""
         self.headFile = headFile
         self.photFile = photFile
         self.headData = self.get_headData(self.headFile,
 					  coerce_inds2int=coerce_inds2int)
         self.phot = fitsio.FITS(photFile)
-        self.bandNames = 'ugrizY'
-        self.newbandNames = tuple('lsst_' + band
-                                  for band in self.bandNames.lower())
+        self.bandNames = SNANABandNames
+        self.newbandNames = registeredBandNames
         self.bandNameDict = dict(zip(self.bandNames, self.newbandNames)) 
 
     @classmethod
     def fromSNANAfileroot(cls, snanafileroot, location='./',
-                          coerce_inds2int=False):
+                          coerce_inds2int=False, 
+                          SNANABandNames=lsst_bandNames,
+                          registeredBandNames=lsst_bandpassNames):
         """
         Class constructor from a root file and a location
 
@@ -61,7 +71,8 @@ class SNANASims(object):
         photfile = cls.snanadatafile(snanafileroot, filetype='phot',
                                      location=location)
         return cls(headFile=headfile, photFile=photfile,
-                   coerce_inds2int=coerce_inds2int)
+                   coerce_inds2int=coerce_inds2int, SNANABandNames=SNANABandNames,
+                   registeredBandNames=registeredBandNames)
     
     @staticmethod
     def snanadatafile(snanafileroot, filetype='head', location='./'):

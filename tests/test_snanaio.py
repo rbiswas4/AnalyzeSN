@@ -1,24 +1,32 @@
-# IPython log file
+from __future__ import absolute_import, print_function, division
 
 import analyzeSN as ans
 import os
 import pandas as pd
 from pandas.util.testing import assert_frame_equal
+registeredMegaCamBands = tuple('mega_' + band for band in 'ugriz')
 def test_load():
-    headFile = os.path.join(ans.__path__[0], 'example_data', 'snana_fits_HEAD.FITS')
-    photFile = os.path.join(ans.__path__[0], 'example_data', 'snana_fits_PHOT.FITS')
-    sne = ans.SNANASims(headFile=headFile, photFile=photFile, coerce_inds2int=False)
-    assert sne.bandNames == 'ugrizY'
-    assert sne.newbandNames == ('lsst_u', 'lsst_g', 'lsst_r', 'lsst_i',
-                                'lsst_z', 'lsst_y')
-    assert len(sne.bandNameDict.keys()) == 6 
+    headFile = os.path.join(ans.__path__[0], 'example_data',
+                            'snana_fits_HEAD.FITS')
+    photFile = os.path.join(ans.__path__[0], 'example_data',
+                            'snana_fits_PHOT.FITS')
+    sne = ans.SNANASims(headFile=headFile, photFile=photFile,
+                        coerce_inds2int=False,
+                        SNANABandNames='ugriz',
+                        registeredBandNames=registeredMegaCamBands)
+    print(sne.bandNames)
+    assert sne.bandNames == 'ugriz'
+    assert sne.newbandNames == ('mega_u', 'mega_g', 'mega_r', 'mega_i',
+                                'mega_z')
+    assert len(sne.bandNameDict.keys()) == 5 
     assert len(sne.headData) == 2
     assert len(sne.get_SNANA_photometry(snid='03d1aw').lightCurve) > 0
     assert len(sne.get_SNANA_photometry(snid='03d1ax').lightCurve) > 0
 def test_snanadatafiles():
-    headFile = os.path.join(ans.__path__[0], 'example_data', 'snana_fits_HEAD.FITS')
-    photFile = os.path.join(ans.__path__[0], 'example_data', 'snana_fits_PHOT.FITS')
-    #sne = ans.SNANASims(headFile=headFile, photFile=photFile, coerce_inds2int=False)
+    headFile = os.path.join(ans.__path__[0], 'example_data',
+                            'snana_fits_HEAD.FITS')
+    photFile = os.path.join(ans.__path__[0], 'example_data',
+                            'snana_fits_PHOT.FITS')
     loc = os.path.join(ans.__path__[0], 'example_data')
     testheadFile = ans.SNANASims.snanadatafile(snanafileroot='snana_fits',
                                                filetype='head',
