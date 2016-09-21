@@ -11,5 +11,5 @@ conda config --add channels astropy
 # conda create --yes -n AnalyzeSN python
 # source activate AnalyzeSN
 conda install -q --yes --file ./continuous_integration/requirements.txt
-conda list --explicit > spec-file.txtconda list --explicit > spec-file.txt;
+conda list --explicit > spec-file.txtconda list --explicit > ./continuous_integration/spec-file.txt;
 
