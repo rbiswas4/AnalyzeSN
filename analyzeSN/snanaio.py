@@ -156,7 +156,6 @@ class SNANASims(object):
         ptrs = ptrs.astype('int').values
         ptrs[0] -= 1
         return ptrs
-
     def get_SNANA_photometry(self, snid=None, ptrs=None):
 	"""
 	return the photometry table corresponding to a SN with snid (from the

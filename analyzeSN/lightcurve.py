@@ -63,6 +63,14 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
         reqd = set(['mjd', 'band', 'flux', 'fluxerr', 'zp', 'zpsys'])
         return reqd
 
+    @abc.abstractproperty
+    def native_meta(self):
+        """
+        An attribute that can hold a dictionary of values describing metadata
+        associated with the light curve. By default this should be set to `None`
+        """
+        pass
+
     @property
     def columnAliases(self):
         """
@@ -135,9 +143,12 @@ class LightCurve(BaseLightCurve):
         except:
             raise NotImplementedError('values for old filter {} not implemented',
                                        name)
-
-
-
+    @property
+    def native_meta(self):
+        """
+        Dictionary of metadata parameters and values to be stored.
+        """
+        return None
     @property
     def lightCurve(self):
         """
