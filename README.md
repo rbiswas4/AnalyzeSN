@@ -13,14 +13,14 @@ The following lines should install the code for the user. The first two lines cr
 
 ```
 # create and activate an environment
-conda create --yes -n AnalyzeSN pytho
+conda create --yes -n AnalyzeSN python
 source activate AnalyzeSN
 # Actual installation
 conda config --add channels pandas
 conda config --add channels astropy
 conda install -q --yes --file ./continuous_integration/requirements.txt
 conda list --explicit > spec-file.txtconda list --explicit > ./continuous_integration/spec-file.txt; 
-pip install -r ./continuous_integration/pip_requirements.txp install -r ./continuous_integration/pip_requirements.txt
+pip install -r ./continuous_integration/pip_requirements.txt
 python setup.py install --user
 ```
 ## Contributors
