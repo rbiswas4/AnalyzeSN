@@ -22,6 +22,7 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
     def __init__(self):
         pass
 
+
     @abc.abstractproperty
     def lightCurve(self):
         """
@@ -77,6 +78,7 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
         aliases['flux'] = ['fluxcal']
         aliases['fluxerr'] = ['flux_err', 'flux_errs', 'fluxerror', 'fluxcalerr']
         return aliases
+
 
 class LightCurve(BaseLightCurve):
     """
@@ -166,6 +168,7 @@ class LightCurve(BaseLightCurve):
                                                         self.ignore_case))
             return _lc
 
+
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
         lc = self.coaddedLC(coaddTimes=coaddTimes, mjdBefore=mjdBefore,
                             minmjd=minmjd).rename(columns=dict(mjd='time'))
@@ -201,4 +204,81 @@ class LightCurve(BaseLightCurve):
         glc.rename(columns=dict(discreteTime='numCoadded'), inplace=True) 
         glc['CoaddedSNR'] = glc['flux'] / glc['fluxerr']
         return glc
+
+class BasePhotometry(with_metaclass(abc.ABCMeta, object)):
+    def __init__(lcs, maxObsHistID, singleLCProps):
+        """
+        Instantiate class with a collection of or single light curve.
+
+        Parameters
+        ----------
+        lcs : `pd.DataFrame` having mandatory columns needed to instantiate a
+        LightCurve class. In addition, it must have the column `snid` and may
+        or may not have the column `PPID` (but might be the index).
+        """
+        self._singleLCProperties = ('ModelFlux', 'SNR')
+        pass
+
+    @abc.abstractmethod
+    def append(self, lcs, recalculatePPID=True):
+        """
+        given a dataframe representing a single or multiple
+        `LightCurve.lightCurve` objects, add it as new rows
+        to the pandas dataFrame `lcs`.
+
+        Parameters
+        ----------
+        lcs : dataframe representing single or multiple lightcurves
+
+        recalculatePPID : Bool, defaults to True
+            if True, recalculates `PPID` for the dataframe.
+        """
+        pass
+
+    def singleLCProperties(self):
+        """
+        immutable sequence of properties that are columns in the light curve
+        corresponding to which single light curve properties will be
+        constructed
+        """
+        return self._singleLCProperties
+
+    @property
+    def singleBandLC(self):
+        """
+        return the `pd.dataFrame.groupby` object with each group representing
+        a single band light curve of a supernova.
+        """
+        return self.lightCurve.groupby([['snid', 'band']])
+
+    @staticmethod
+    def statTable(PropTuple, callableTuple,
+                  grouped=None,
+                  dataframe=None,
+                  groupTuple=None):
+        """
+        Parameters
+        ----------
+        PropTuple :
+        callableTuple :
+        grouped :
+        dataframe :
+        groupTuple :
+        """
+        if grouped is None:
+	    grouped = dataframe.groupby(list(groupTuple))
+	callable_strings = list(s.__name__ for s in callableTuple)
+	xx = grouped.agg(dict(zip(PropTuple, callableTuple)))
+	xx.columns = ('_'.join(name) for name in zip(callable_strings, xx.columns))
+	xx = xx.reset_index().pivot_table(index='snid', columns='band')
+	xx.columns = ['_'.join(col).strip() for col in xx.columns.values]
+	return xx 
+
+    @abc.abstractmethod
+    def pair_method(self, obsHistID, snid, maxObsHistID):
+        """
+        Combine the obsHistID and snid to form a single index.
+        """
+        pass
+
 
