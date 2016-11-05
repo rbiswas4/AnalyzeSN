@@ -108,7 +108,8 @@ class Photometry(BasePhotometry):
         obsHistID = np.mod(photID, maxObsHistID)
         return snid, obsHistID
         
-    def pair_method(self, obsHistID, snid, maxObsHistID):
+    @staticmethod
+    def pair_method(obsHistID, snid, maxObsHistID):
         """
         Combine the obsHistID and snid to form a single index.
 
