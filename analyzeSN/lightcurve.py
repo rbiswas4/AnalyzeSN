@@ -42,9 +42,8 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
     @abc.abstractmethod
     def remap_filters(names, bandNameDict, ignore_case):
         pass
+
     @abc.abstractmethod
-
-
     def missingColumns(self, lcdf):
 
         notFound = self.mandatoryColumns - set(lcdf.columns)
