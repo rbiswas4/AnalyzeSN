@@ -135,8 +135,6 @@ class LightCurve(BaseLightCurve):
             raise NotImplementedError('values for old filter {} not implemented',
                                        name)
 
-
-
     @property
     def lightCurve(self):
         """
@@ -165,6 +163,8 @@ class LightCurve(BaseLightCurve):
                                                         self.ignore_case))
             return _lc
 
+        
+    
     def snCosmoLC(self, coaddTimes=None, mjdBefore=0., minmjd=None):
         lc = self.coaddedLC(coaddTimes=coaddTimes, mjdBefore=mjdBefore,
                             minmjd=minmjd).rename(columns=dict(mjd='time'))
@@ -201,3 +201,46 @@ class LightCurve(BaseLightCurve):
         glc['CoaddedSNR'] = glc['flux'] / glc['fluxerr']
         return glc
 
+class Realizations(self):
+    def _getIndexForStandardName(self, standardName):
+        """
+        Obtain the index of the quantity corresponding to the standardized name
+
+        Parameters
+        -----------
+        standardName : string, mandatory
+            standardized name of a quantity
+        """
+        _lc = self._lightCurve.copy()
+        i = list(np.where(_lc.columns.values == name)[0] \
+             for name in [standardName] + self.columnAliases[standardName] \
+             if len(np.where(self._lightCurve.columns.values==name)[0] ))[0][0]
+        return i
+
+    def inflateUncertainties(self, fraction, scatterFluxes=True,
+                             truncateAtZero=True, func=None,
+                             rng=np.random.RandomState()):
+        """
+        Inflate all of the uncertainties in the light curve by a constant
+        fraction
+
+        Parameters
+        ----------
+        fraction : float
+            fraction of value by which the uncertainties 
+        """
+        if func is None:
+            func = lambda x: (1.0 + fraction ) * x
+        standardName = 'fluxerr'
+        ind = self._getIndexForStandardName(standardName)
+        fluxerr = self._lightCurve.columns.values[ind]
+        self._lightCurve[fluxerr] = self._lightCurve[fluxerr].apply(func)
+
+        if scatterFluxes:
+            stdName = 'flux'
+            fluxind = self._getIndexForStandardName(stdName)
+            flux = self._lightCurve.columns.values[ind]
+            fluxVals = self._lightCurve[flux].apply(lambda x: rng.normal(size=len(self._lightCurve))\
+                * self._lightCurve[fluxerr] + x)
+            self._lightCurve[flux] = fluxVals
+        return 
