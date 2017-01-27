@@ -5,7 +5,7 @@ as SNCosmo bands.
 
 This allows SNCosmo to automatically use the 
     LSST bandpass objects through the string 'lsst_b' where b is one of 'ugrizy'
-    Megacam bandpass objects through the string 'mega_b' where b is one of 'ugrizy'
+    Megacam bandpass objects through the string 'megab' where b is one of 'ugrizy'
 
 Note : The megacam bands added are the 'average' megacam bands using in ugriz.
 1. Post 2007 (June), the i band has been changed to i2. This is important for
@@ -41,7 +41,7 @@ for band in lsstbandPassList:
     sncosmoband = sncosmo.Bandpass(wave=numpyband[:, 0],
                                    trans=numpyband[:, 1],
                                    wave_unit=Unit('nm'),
-                                   name='lsst_' + band)
+                                   name='lsst' + band)
 
     sncosmo.registry.register(sncosmoband, force=True)
 
@@ -51,5 +51,5 @@ for band in megacamPassList:
     sncosmoband = sncosmo.Bandpass(wave=numpyband[:, 0],
                                    trans=numpyband[:, 1],
                                    wave_unit=Unit('nm'),
-                                   name='mega_' + band)
+                                   name='megacam' + band)
     sncosmo.registry.register(sncosmoband, force=True)
