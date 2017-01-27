@@ -25,5 +25,5 @@ setup(# package information
       # What data to include as packages
       include_package_data=True,
       package_data={packageName: ['example_data/*.FITS', 'example_data/*.dat',
-                    'example_data/*.md']}
+                    'example_data/*.md', 'example_data/lc*']}
       )

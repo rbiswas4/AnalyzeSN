@@ -7,6 +7,7 @@ import abc
 import numpy as np
 import pandas as pd
 from astropy.table import Table
+import sncosmo
 from .aliases import aliasDictionary
 
 
@@ -18,6 +19,9 @@ class BaseLightCurve(with_metaclass(abc.ABCMeta, object)):
     Abstract Base Class for Light Curve Data showing methods that need to be
     implemented.
     """
+    @abc.abstractproperty
+    def props(self):
+        pass
     @abc.abstractmethod
     def __init__(self):
         pass
@@ -90,7 +94,7 @@ class LightCurve(BaseLightCurve):
     using the zero point system zpsys.
     """
 
-    def __init__(self, lcdf, bandNameDict=None, ignore_case=True):
+    def __init__(self, lcdf, bandNameDict=None, ignore_case=True, propDict=None):
         """
         Instantiate Light Curve class
 
@@ -105,6 +109,8 @@ class LightCurve(BaseLightCurve):
         ignore_case : bool, optional, defaults to True
             ignore the case of the characters in the strings representing
             bandpasses
+        propDict : Dictionary, optional, defaults to None
+            a dictionary of properties associated with the light curve
         Example
         -------
         >>> from analyzeSN import LightCurve
@@ -115,6 +121,25 @@ class LightCurve(BaseLightCurve):
         self._lightCurve  = lcdf
         self.ignore_case = ignore_case
         _ = self.lightCurve
+        self._propDict = propDict
+
+    @property
+    def props(self):
+        return self._propDict
+
+    @classmethod
+    def fromSALTFormat(cls, fname):
+        _lc = sncosmo.read_lc(fname, format='salt2')
+        lc = _lc.to_pandas()
+        lc.MagSys = 'ab'
+        def filtername(x):
+            if 'megacam' in x.lower():
+                return 'megacam'
+            else:
+                return x[:-3].lower()
+        banddict = dict((key.lower(), filtername(key) + key[-1])
+                        for key in lc.Filter.unique())
+        return cls(lc, bandNameDict=banddict, ignore_case=True, propDict=_lc.meta)
 
 
     def missingColumns(self, lcdf):
