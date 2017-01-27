@@ -9,4 +9,4 @@ future
 emcee
 iminuit
 nestle
-triangle
+corner
