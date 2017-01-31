@@ -157,7 +157,7 @@ class ResChar(object):
         """
         A = np.array([1.0, alpha, -beta])
         _cov = self.salt_covariance_linear()
-        print _cov, A
+        print(_cov, A)
         sc = cutils.subcovariance(_cov, paramList=['mB', 'x1', 'c'],
                                   array=True)
         return cutils.expAVsquare(sc, A)
