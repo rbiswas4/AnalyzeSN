@@ -137,7 +137,7 @@ class SNANASims(object):
         return  _head.to_pandas().set_index('SNID')
         
     def get_photrows(self, row=None, snid=None):
-	"""
+        """
 	return rows of the photometry table corresponding to a SN as listed
 	in the head table.
 
@@ -158,7 +158,7 @@ class SNANASims(object):
         return ptrs
 
     def get_SNANA_photometry(self, snid=None, ptrs=None):
-	"""
+        """
 	return the photometry table corresponding to a SN with snid (from the
        	head table) or the photometry table within the range of row numbers
 	indicated by ptrs
