@@ -20,7 +20,7 @@ class SNANASims(object):
     def __init__(self, headFile, photFile, coerce_inds2int=True,
                  SNANABandNames=lsst_bandNames,
                  registeredBandNames=lsst_bandpassNames):
-	"""
+        """
 	Parameters
 	---------
 	headFile : string, mandatory
