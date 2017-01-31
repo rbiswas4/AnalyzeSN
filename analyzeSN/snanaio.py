@@ -112,11 +112,11 @@ class SNANASims(object):
 
     @staticmethod 
     def get_headData(headFile, coerce_inds2int=False):
-	"""
+        """
 	read the headData of a SNANA simulation and return a dataframe
 	representing the simulation
-	
-	Parameters
+        
+        Parameters
 	----------
 	headFile :
 	coerce_inds2int :
