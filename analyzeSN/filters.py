@@ -20,10 +20,11 @@ import numpy as np
 from astropy.units import Unit
 import sncosmo
 
+throughputsdir = "C:/Users/Maddi/throughputs"
 lsstbandPassList = ['u', 'g', 'r', 'i', 'z', 'y']
-lsstbanddir = os.path.join(os.getenv('THROUGHPUTS_DIR'), 'baseline')
+lsstbanddir = os.path.join(throughputsdir, 'baseline')
 megacamPassList = 'ugriz'
-megacambanddir = os.path.join(os.getenv('THROUGHPUTS_DIR'), 'megacam')
+megacambanddir = os.path.join(throughputsdir, 'megacam')
 # lsstbands = list()
 # lsstbp = dict()
 
