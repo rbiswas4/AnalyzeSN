@@ -120,7 +120,6 @@ class LightCurve(BaseLightCurve):
         self.bandNameDict = bandNameDict
         self._lightCurve  = lcdf
         self.ignore_case = ignore_case
-        _ = self.lightCurve
         self._propDict = propDict
 
     @property
@@ -153,7 +152,9 @@ class LightCurve(BaseLightCurve):
         """
         try:
             if ignore_case:
-                return nameDicts[name.lower()]
+                _nameDicts = dict((key.lower(), value)
+                                  for (key, value) in nameDicts.items()) 
+                return _nameDicts[name.lower()]
             else:
                 return nameDicts[name]
         except:
