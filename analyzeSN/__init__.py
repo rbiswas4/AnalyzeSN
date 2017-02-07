@@ -11,7 +11,7 @@ except:
     print('files\n')
 from .aliases import *
 from .lightcurve import *
-from .snanaio import SNANASims
+from .snanaio import *
 from .analyzelcFits import *
 from .cov_utils import *
 
