@@ -9,8 +9,8 @@ from astropy.table import Table, Column
 
 __all__ = ['SNANASims']
 
-lsst_bandNames = 'ugrizy'
-lsst_bandpassNames = tuple('lsst_' + band
+lsst_bandNames = 'ugrizY'
+lsst_bandpassNames = tuple('lsst' + band
                            for band in lsst_bandNames.lower())
 class SNANASims(object):
     """
@@ -179,5 +179,5 @@ class SNANASims(object):
         lcdf = pd.DataFrame(lcData)
         lcdf['zpsys'] = 'ab'
         lcdf['zp'] = 27.5
-        
+ 
         return LightCurve(lcdf, bandNameDict=self.bandNameDict, ignore_case=True)
