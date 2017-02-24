@@ -69,10 +69,11 @@ class ResChar(object):
         SNCosmoRes : instance of `sncosmo.utils.res
         """
 
-        res, model = SNCosmoRes
-
         # samples if the method was mcmc/nest_lc but not if max_lc
         # weights makes sense for mcmc methods
+
+        res, model = SNCosmoRes
+
         samples = None
         if 'samples' in res.keys():
             samples = res['samples']
