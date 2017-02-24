@@ -21,7 +21,6 @@ class ResChar(object):
                  param_names,
                  parameters,
                  covariance,
-                 errors,
                  samples=None,
                  weights=None,
                  sncosmoModel=None):
@@ -55,7 +54,6 @@ class ResChar(object):
         self.param_names = param_names
         self._parameters = parameters
         self._covariance = covariance
-        self.errors = errors
         self._samples = samples
         self.weights = weights
         self.sncosmoModel = sncosmoModel
@@ -93,7 +91,6 @@ class ResChar(object):
                    param_names=res.param_names,
                    parameters=res.parameters,
                    covariance=res.covariance,
-                   errors=res.errors,
                    samples=samples,
                    weights=weights,
                    sncosmoModel=model)
