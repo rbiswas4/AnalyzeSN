@@ -210,3 +210,4 @@ class ResChar(object):
         del samples['MDelta']
         del samples['x0']
         return samples
+
