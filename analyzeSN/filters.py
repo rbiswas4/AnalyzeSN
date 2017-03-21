@@ -21,7 +21,7 @@ from astropy.units import Unit
 import sncosmo
 
 lsstbandPassList = ['u', 'g', 'r', 'i', 'z', 'y']
-lsstbanddir = os.path.join(os.getenv('THROUGHPUTS_DIR'), 'baseline')
+lsstbanddir = os.path.join(os.getenv('THROUGHPUTS_DIR'), 'approximate_baseline')
 megacamPassList = 'ugriz'
 megacambanddir = os.path.join(os.getenv('THROUGHPUTS_DIR'), 'megacam')
 # lsstbands = list()
