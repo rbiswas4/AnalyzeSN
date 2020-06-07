@@ -131,7 +131,7 @@ class ResChar(object):
     def salt_covariance_linear(self, x0Truth=None):
         """
         """
-        x0 = self.parameters.ix['x0']
+        x0 = self.parameters.loc['x0']
         if x0Truth is not None:
             x0 = x0Truth
 
